@@ -1,0 +1,53 @@
+name:               dashboardh
+version:            0.0.1
+author:             Nick Hibberd <nick@hibberd.id.au>
+category:           Build Monitor
+homepage:           https://github.com/nhibberd/dashboardh
+bug-reports:        https://github.com/nhibberd/dashboardh/issues
+cabal-version:      >= 1.8
+build-type:         Simple
+synopsis:           Displays awesomeness and highlights fail.
+
+source-repository   head
+  type:             git
+  location:         https://github.com/nhibberd/dashboardh.git
+
+executable dummy
+  main-is: dummy.hs
+  build-depends: base >= 4
+  default-language: Haskell2010
+
+library
+  extensions:       
+                    NoImplicitPrelude
+  build-depends:
+                    base                            >= 3          && < 5
+                  , text                            >= 0.11
+                  , scotty
+                  , aeson
+                  , mtl
+                  , wai
+                  , http-conduit
+                  , bytestring
+  ghc-options:
+                    -Wall -fno-warn-orphans
+  hs-source-dirs:
+                    src
+  exposed-modules: 
+                    Dashboardh
+                    Dashboardh.Prelude
+
+executable         dashboardh
+    ghc-options:   -Wall -threaded -O2
+    main-is:           ../src/main.hs
+    hs-source-dirs:    dist
+    build-depends:     base
+                     , deckard
+                     , scotty
+                     , wai-extra
+
+test-suite spec
+  type:           exitcode-stdio-1.0
+  main-is:        test.hs
+  hs-source-dirs: test
+  build-depends:  deckard, base, hspec, QuickCheck, wai, wai-test, scotty, bytestring, network, http-types, aeson                
