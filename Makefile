@@ -3,13 +3,13 @@
 default: test
 
 test:
-        cabal configure --enable-tests && cabal build && cabal test
+		cabal configure --enable-tests && cabal build && cabal test
 
 build:
-        cabal configure && cabal build
+		cabal configure && cabal build
 
 dev:
-        cabal sandbox init && cabal install --only-dependencies
+		cabal sandbox init && cabal install --only-dependencies
 
 ghci:
-        cabal configure && cabal build && cabal repl
+		cabal configure && cabal build && cabal repl
