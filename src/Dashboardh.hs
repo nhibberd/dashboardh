@@ -1,4 +1,10 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric #-}
-module Dashboardh ( module X ) where
+module Dashboardh ( module X, dash ) where
 
 import Dashboardh.Prelude as X
+import Web.Scotty
+
+
+deckardmain :: ScottyM ()
+deckardmain = 
+    error("todo")

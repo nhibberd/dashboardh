@@ -1,5 +1,9 @@
 import qualified Dashboardh
+import Web.Scotty
+import Network.Wai.Middleware.RequestLogger
 
 main :: IO ()
 main = 
-    error("todo")
+  scotty 3000 $ do
+  middleware logStdoutDev
+  Dashboardh.dash
