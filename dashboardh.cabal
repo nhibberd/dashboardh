@@ -42,7 +42,7 @@ executable         dashboardh
     main-is:           ../src/main.hs
     hs-source-dirs:    dist
     build-depends:     base
-                     , deckard
+                     , dashboardh
                      , scotty
                      , wai-extra
 
@@ -50,4 +50,4 @@ test-suite spec
   type:           exitcode-stdio-1.0
   main-is:        test.hs
   hs-source-dirs: test
-  build-depends:  deckard, base, hspec, QuickCheck, wai, wai-test, scotty, bytestring, network, http-types, aeson                
+  build-depends:  dashboardh, base, hspec, QuickCheck, wai, wai-test, scotty, bytestring, network, http-types, aeson                
