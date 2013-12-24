@@ -10,7 +10,7 @@ dash = do
     get "/" $ do 
         file "src/web/index.html"
 
-    get "/status" $ do
+    get "/status/:var/" $ do
         error("todo")
 
     get "/statistics" $ do
