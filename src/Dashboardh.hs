@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell, DeriveGeneric #-}
 module Dashboardh ( module X, dash ) where
 
-import Dashboardh.Core
 import Dashboardh.Prelude as X
 import Web.Scotty
 
