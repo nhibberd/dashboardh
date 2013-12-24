@@ -30,6 +30,7 @@ library
                     src
   exposed-modules: 
                     Dashboardh
+                    Dashboardh.Core
                     Dashboardh.Prelude
 
 executable         dashboardh
