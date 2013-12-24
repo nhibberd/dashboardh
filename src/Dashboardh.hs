@@ -6,5 +6,12 @@ import Web.Scotty
 
 
 dash :: ScottyM ()
-dash = 
-    error("todo")
+dash = do
+    get "/" $ do 
+        error("todo")
+
+    get "/status" $ do
+        error("todo")
+
+    get "/statistics" $ do
+        error("todo")
