@@ -13,3 +13,6 @@ dev:
 
 ghci:
 		cabal configure && cabal build && cabal repl
+
+run:
+		cabal build && dist/build/dashboardh/dashboardh
