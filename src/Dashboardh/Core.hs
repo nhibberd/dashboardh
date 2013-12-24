@@ -1,11 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Core (
-  site
-) where
+module Dashboardh.Core where
 
 import Data.Text.Lazy       (Text) 
 import Web.Scotty           hiding (body)
 
-site :: Text -> ActionM()
-site a = 
-    html a
+foo :: Int -> Int
+foo a = a
