@@ -4,6 +4,7 @@ module Dashboardh ( module X, dash ) where
 import Dashboardh.Prelude as X
 import Web.Scotty
 
+data Hole = Hole
 
 dash :: ScottyM ()
 dash = do
