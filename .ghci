@@ -1,5 +1,12 @@
 :set -isrc -idist/build/autogen
-:set  -XNoImplicitPrelude  -Wall -Werror
+:set -Wall
+:set -fno-warn-unused-binds
+:set -fno-warn-unused-do-bind
+:set -fno-warn-unused-imports
+:set -fno-warn-type-defaults
+:set -XNoImplicitPrelude
+:set -XOverloadedStrings
+
 :l Dashboardh
 :m + Dashboardh
 :set prompt "dashboardh>> "
