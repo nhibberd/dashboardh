@@ -5,6 +5,6 @@ import Dashboardh.Prelude as X
 import Web.Scotty
 
 
-deckardmain :: ScottyM ()
-deckardmain = 
+dash :: ScottyM ()
+dash = 
     error("todo")
