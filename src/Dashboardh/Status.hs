@@ -1,22 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Status where
+module Dashboardh.Status ( Job ) where
 
 import Dashboardh.Prelude
 import Data.Aeson
 import Data.Text
 
-data Foo = Foo 
+data Job = Job 
     { name :: Text
-    , age  :: Int
+    , buildTimeLatest  :: Int
+    , buildTimeAvg  :: Int
+    , buildTimeMin  :: Int
+    , buildTimeMax  :: Int
     } deriving (Eq, Show)
 
-instance FromJSON Foo where
-    parseJSON (Object v) = Foo <$>
+instance FromJSON Job where
+    parseJSON (Object v) = Job <$>
                            v .: "name" <*>
-                           v .: "age"
+                           v .: "buildTimeLatest" <*>
+                           v .: "buildTimeAvg" <*>
+                           v .: "buildTimeMin" <*>
+                           v .: "buildTimeMax"
     parseJSON _          = mzero
-instance ToJSON Foo where
-    toJSON (Foo name age) = object ["name" .= name, "age" .= age]
-
-foo :: Int -> Int
-foo a = a
+instance ToJSON Job where
+    toJSON (Job n bl ba bmin bmax) = object ["name" .= n, "buildTimeLatest" .= bl, "buildTimeAvg" .= ba, "buildTimeMin" .= bmin, "buildTimeMax" .= bmax]
