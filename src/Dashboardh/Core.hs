@@ -1,8 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Dashboardh.Core where
 
-import Data.Text.Lazy       (Text) 
-import Web.Scotty           hiding (body)
+import Dashboardh.Prelude
 
 foo :: Int -> Int
 foo a = a

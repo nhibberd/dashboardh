@@ -9,7 +9,7 @@ import Web.Scotty
 dash :: ScottyM ()
 dash = do
     get "/" $ do 
-        site "src/web/index.html"
+        file "src/web/index.html"
 
     get "/status" $ do
         error("todo")
