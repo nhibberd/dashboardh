@@ -36,9 +36,9 @@ getJobStatus =
 
 -- Wrap following operations in Json call to jenkins
 
-doStuff :: Text -> (Text -> Int) -> Int
-doStuff =
-    error("wrapper . handle jenkins api")
+getJenkins :: Text
+getJenkins =
+    error("handle jenkins api")
 
 getJobStatusHistory :: Text -> Int
 getJobStatusHistory =
