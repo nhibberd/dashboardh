@@ -1,5 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Status ( getJenkins, getSimpleJob, getJobStatus, getJobStatusHistory, getJobTimeHistory ) where
+module Dashboardh.Status(
+   getJenkins
+ , getSimpleJob
+ , getJobStatus
+ , getJobStatusHistory
+ , getJobTimeHistory
+ ) where
 
 import Dashboardh.Prelude
 import Dashboardh.Job
