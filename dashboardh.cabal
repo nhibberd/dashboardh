@@ -31,6 +31,7 @@ library
   exposed-modules: 
                     Dashboardh
                     Dashboardh.Core
+                    Dashboardh.Job
                     Dashboardh.Prelude
                     Dashboardh.Status
 

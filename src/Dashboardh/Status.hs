@@ -1,29 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Status ( Job ) where
+module Dashboardh.Status ( getJenkins, getSimpleJob, getJobStatus, getJobStatusHistory, getJobTimeHistory ) where
 
 import Dashboardh.Prelude
-import Data.Aeson
+import Dashboardh.Job
 import Data.Text
 
-data Job = Job 
-    { name :: Text
-    , buildTimeLatest  :: Int
-    , buildTimeAvg  :: Int
-    , buildTimeMin  :: Int
-    , buildTimeMax  :: Int
-    } deriving (Eq, Show)
+getJenkins :: Text
+getJenkins =
+    error("handle jenkins api")
 
-instance FromJSON Job where
-    parseJSON (Object v) = Job <$>
-                           v .: "name" <*>
-                           v .: "buildTimeLatest" <*>
-                           v .: "buildTimeAvg" <*>
-                           v .: "buildTimeMin" <*>
-                           v .: "buildTimeMax"
-    parseJSON _          = mzero
-instance ToJSON Job where
-    toJSON (Job n bl ba bmin bmax) = object ["name" .= n, "buildTimeLatest" .= bl, "buildTimeAvg" .= ba, "buildTimeMin" .= bmin, "buildTimeMax" .= bmax]
-
+-- Wrap following operations in Json call to jenkins
 
 getSimpleJob :: Text -> Job
 getSimpleJob =
@@ -33,12 +19,6 @@ getSimpleJob =
 getJobStatus :: Text -> Int
 getJobStatus =
     error("return current build status")
-
--- Wrap following operations in Json call to jenkins
-
-getJenkins :: Text
-getJenkins =
-    error("handle jenkins api")
 
 getJobStatusHistory :: Text -> Int
 getJobStatusHistory =
