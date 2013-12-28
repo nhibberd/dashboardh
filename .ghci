@@ -9,4 +9,4 @@
 
 :l Dashboardh
 :m + Dashboardh
-:set prompt "dashboardh>> "
+:set prompt "dashboardh >> "
