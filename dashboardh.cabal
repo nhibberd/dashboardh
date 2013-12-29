@@ -22,8 +22,9 @@ library
                   , aeson
                   , mtl
                   , wai
-                  , http-conduit
+                  , http-conduit                    >= 1.9        && < 2
                   , bytestring
+                  , libjenkins
   ghc-options:
                     -Wall -fno-warn-orphans
   hs-source-dirs:
