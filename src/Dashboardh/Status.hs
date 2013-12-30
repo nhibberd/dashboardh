@@ -33,7 +33,7 @@ getJenkins = do
 getJobs :: Settings -> IO (Either Disconnect [Job])
 getJobs settings = runJenkins settings $ do
   res <- get (json -?- "tree" -=- "jobs[name]")
-  let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
+  let jobs = res ^.. key "jobs"._Array.each.key "name"._String
   concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
 
 
