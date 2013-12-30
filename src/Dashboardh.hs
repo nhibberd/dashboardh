@@ -2,6 +2,7 @@
 module Dashboardh ( module X, dash ) where
 
 import Dashboardh.Prelude as X
+import Dashboardh.Status as X
 import Web.Scotty
 
 data Hole = Hole
@@ -11,8 +12,8 @@ dash = do
     get "/" $ do 
         file "src/web/index.html"
 
-    get "/status/:var/" $ do
-        error("todo")
+    get "/status/" $ do
+        undefined --foldr (\a -> json a) undefined (getJenkins)
 
     get "/statistics" $ do
         error("todo")
