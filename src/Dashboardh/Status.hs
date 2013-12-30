@@ -15,16 +15,17 @@ import Options.Applicative
 import Control.Lens
 import Control.Lens.Aeson
 import Jenkins.REST
+import Debug.Trace
 
 
 data Hole = Hole
 
 getJenkins :: IO [Job]
 getJenkins = do
-    opts <- customExecParser (prefs showHelpOnError) options
+    let opts = Settings "http://10.128.131.84" 8090 "anonymous" "anonymous"
     jobs <- getJobs opts
     case jobs of
-        Right js -> return $ js
+        Right l -> return $ l
         Left  _  -> return $ []
 
 

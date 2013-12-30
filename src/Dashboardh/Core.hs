@@ -18,14 +18,3 @@ foo a = a
 jobz :: Text -> Job
 jobz =
     error("todo")
-
-
-
-options :: ParserInfo Settings
-options = info (helper <*> parser) fullDesc
- where
-  parser = Settings
-    <$> (Host <$> strOption (long "http://aubne-s-dvl01b.ventyx.abb.com"))
-    <*> (Port <$> option (long "8080"))
-    <*> (User . B.pack <$> strOption (long "anonymous"))
-    <*> (APIToken . B.pack <$> strOption (long "secret"))
