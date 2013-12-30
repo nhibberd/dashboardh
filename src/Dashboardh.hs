@@ -14,7 +14,7 @@ dash = do
         file "src/web/index.html"
 
     -- High level
-    get "/status/:job/:call" $ do
+    get "/status/" $ do
         do 
             jobs <- liftIO getJenkins            
             json jobs
