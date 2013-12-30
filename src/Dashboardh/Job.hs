@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Job ( Job(..) ) where
+module Dashboardh.Job ( Job(..), FromJSON, ToJSON ) where
 
 import Dashboardh.Prelude
 import Data.Aeson
