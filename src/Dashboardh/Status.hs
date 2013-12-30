@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Dashboardh.Status(
    getJenkins
  , getSimpleJob
@@ -22,7 +23,7 @@ data Hole = Hole
 
 getJenkins :: IO [Job]
 getJenkins = do
-    let opts = Settings "http://10.128.131.84" 8090 "anonymous" "anonymous"
+    let opts = Settings "http://10.128.131.84" 8090 "" ""
     jobs <- getJobs opts
     case jobs of
         Right l -> return $ l
@@ -32,12 +33,10 @@ getJenkins = do
 getJobs :: Settings -> IO (Either Disconnect [Job])
 getJobs settings = runJenkins settings $ do
   res <- get (json -?- "tree" -=- "jobs[name]")
-  let jobs = res ^.. key "jobs"._Array.each.key "name"._String
-  concurrentlys (map jobize jobs)
+  let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
+  concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
 
-jobize :: Text -> Jenkins Job
-jobize n = do
-    return $ Job n 0 0 0 0
+
 
 
 -- Wrap following operations in Json call to jenkins

@@ -13,10 +13,22 @@ dash = do
     get "/" $ do 
         file "src/web/index.html"
 
-    get "/status/" $ do
+    -- High level
+    get "/status/:job/:call" $ do
         do 
             jobs <- liftIO getJenkins            
             json jobs
+
+    -- Job level
+    get "/status/:job/:call" $ do
+        job <- params
+        json $ job
+
+    -- Build level
+    get "/status/:job/:number/:call" $ do
+        job <- params
+        json $ job
+
 
     get "/statistics" $ do
         error("todo")
