@@ -9,11 +9,35 @@ module Dashboardh.Status(
 
 import Dashboardh.Prelude
 import Dashboardh.Job
-import Data.Text
+import Dashboardh.Core
+import Data.Text                (Text)
+import Options.Applicative
+import Control.Lens
+import Control.Lens.Aeson
+import Jenkins.REST
 
-getJenkins :: Text
-getJenkins =
-    error("handle jenkins api")
+
+data Hole = Hole
+
+getJenkins :: IO [Job]
+getJenkins = do
+    opts <- customExecParser (prefs showHelpOnError) options
+    jobs <- getJobs opts
+    case jobs of
+        Right js -> return $ js
+        Left  _  -> return $ []
+
+
+getJobs :: Settings -> IO (Either Disconnect [Job])
+getJobs settings = runJenkins settings $ do
+  res <- get (json -?- "tree" -=- "jobs[name]")
+  let jobs = res ^.. key "jobs"._Array.each.key "name"._String
+  concurrentlys (map jobize jobs)
+
+jobize :: Text -> Jenkins Job
+jobize n = do
+    return $ Job n 0 0 0 0
+
 
 -- Wrap following operations in Json call to jenkins
 
