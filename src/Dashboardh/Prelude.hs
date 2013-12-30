@@ -22,6 +22,8 @@ import Prelude as X (
     , (>>=)
     , (=<<)
     , foldr
+    , fst
+    , snd
     )
 import Control.Applicative as X ((<$>), (<*>), (*>), (<*), pure)
 import Control.Monad.Trans as X (liftIO)
