@@ -1,0 +1,28 @@
+Jenkins API
+
+JOBS
+=====
+- High-level
+http://aubne-s-dvl01b.ventyx.abb.com:8080/api/json
+http://aubne-s-dvl01b.ventyx.abb.com:8080/api/json?tree=jobs[name]
+http://aubne-s-dvl01b.ventyx.abb.com:8080/api/json?tree=jobs[url]
+http://aubne-s-dvl01b.ventyx.abb.com:8080/api/json?tree=jobs[color]
+
+- Job-level
+http://aubne-s-dvl01b.ventyx.abb.com:8080/job/baker_4.x/api/json?tree=color
+http://aubne-s-dvl01b.ventyx.abb.com:8080/job/baker_4.x/api/json?tree=builds[number]
+http://aubne-s-dvl01b.ventyx.abb.com:8080/job/baker_4.x/api/json?tree=builds[url]
+
+- Build-level
+<url>:<port>/job/<name>/<number>/api/json?tree=duration
+<url>:<port>/job/<name>/<number>/api/json?tree=building
+<url>:<port>/job/<name>/<number>/api/json?tree=result
+
+
+- blame game
+http://aubne-s-dvl01b.ventyx.abb.com:8080/job/baker_4.x/3652/api/json?tree=changeSet[items[affectedPaths]]
+http://aubne-s-dvl01b.ventyx.abb.com:8080/job/baker_4.x/3652/api/json?tree=changeSet[items[author[fullName]]]
+
+
+NODES
+======
