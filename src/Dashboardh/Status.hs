@@ -28,28 +28,28 @@ getJenkins f = do
         Right l -> return $ l
         Left  _  -> return $ []
 
-getJobs :: Settings -> IO (Either Disconnect [Job])
+getJobs :: Settings -> IO (Either Disconnect [Text])
 getJobs settings = runJenkins settings $ do
   res <- get (json -?- "tree" -=- "jobs[name]")
   let jobs = res ^.. key "jobs"._Array.each.key "name"._String
-  concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
+  concurrentlys (map (\n -> do return $ n) jobs)
 
 getViewJobs :: Text -> Settings -> IO (Either Disconnect [Text])
 getViewJobs v settings = runJenkins settings $ do
-  res <- get (view v `as`json -?- "tree" -=- "jobs[name]")
+  res <- get (view v `as` json -?- "tree" -=- "jobs[name]")
   let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
   concurrentlys (map (\n -> do return $ n) jobs)
 
 getJob :: Text -> Settings -> IO (Either Disconnect [Job])
 getJob j settings = runJenkins settings $ do
-  res <- get (job (trace (show j) j) `as`json -?- "tree" -=- "jobs[duration,number,result,builtOn]")
+  res <- get (job (trace (show j) j) `as` json -?- "tree" -=- "builds[duration,number,result,builtOn]")
   let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
-  concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
+  concurrentlys (map (\n -> do return $ Job n 0 "" "") (trace (show jobs) jobs))
 
 
 -- Wrap following operations in Json call to jenkins
 
-getSimpleJob :: Text -> Job
+getSimpleJob :: Text -> Text
 getSimpleJob =
     error("handle jenkins json")
 
