@@ -2,10 +2,9 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Dashboardh.Status(
    getJenkins
- , getSimpleJob
- , getJobStatus
- , getJobStatusHistory
- , getJobTimeHistory
+ , getJobs
+ , getViewJobs
+ , getJob
  ) where
 
 import Dashboardh.Prelude
@@ -13,7 +12,7 @@ import Dashboardh.Job
 import Dashboardh.Core
 import Data.Text                (Text)
 import Options.Applicative
-import Control.Lens
+import Control.Lens             hiding (view)
 import Control.Lens.Aeson
 import Jenkins.REST
 import Debug.Trace
@@ -21,14 +20,13 @@ import Debug.Trace
 
 data Hole = Hole
 
-getJenkins :: IO [Job]
-getJenkins = do
+getJenkins :: (Settings -> IO (Either Disconnect [a])) -> IO [a]
+getJenkins f = do
     let opts = Settings "http://10.128.131.84" 8090 "" ""
-    jobs <- getJobs opts
+    jobs <- f opts
     case jobs of
         Right l -> return $ l
         Left  _  -> return $ []
-
 
 getJobs :: Settings -> IO (Either Disconnect [Job])
 getJobs settings = runJenkins settings $ do
@@ -36,7 +34,17 @@ getJobs settings = runJenkins settings $ do
   let jobs = res ^.. key "jobs"._Array.each.key "name"._String
   concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
 
+getViewJobs :: Text -> Settings -> IO (Either Disconnect [Text])
+getViewJobs v settings = runJenkins settings $ do
+  res <- get (view v `as`json -?- "tree" -=- "jobs[name]")
+  let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
+  concurrentlys (map (\n -> do return $ n) jobs)
 
+getJob :: Text -> Settings -> IO (Either Disconnect [Job])
+getJob j settings = runJenkins settings $ do
+  res <- get (job (trace (show j) j) `as`json -?- "tree" -=- "jobs[duration,number,result,builtOn]")
+  let jobs = (trace (show res) res) ^.. key "jobs"._Array.each.key "name"._String
+  concurrentlys (map (\n -> do return $ Job n 0 0 0 0) jobs)
 
 
 -- Wrap following operations in Json call to jenkins
@@ -44,7 +52,6 @@ getJobs settings = runJenkins settings $ do
 getSimpleJob :: Text -> Job
 getSimpleJob =
     error("handle jenkins json")
-
 
 getJobStatus :: Text -> Int
 getJobStatus =

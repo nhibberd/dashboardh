@@ -5,6 +5,7 @@ import Dashboardh.Prelude as X
 import Dashboardh.Status as X
 import Web.Scotty
 import Debug.Trace
+import Data.Text.Lazy
 
 data Hole = Hole
 
@@ -15,17 +16,23 @@ dash = do
 
     -- High level
     get "/status/" $ do
-        do 
-            jobs <- liftIO getJenkins            
-            json jobs
+        jobs <- liftIO $ getJenkins getJobs          
+        json jobs   
 
-    -- Job level
-    get "/status/:job/:call" $ do
-        job <- params
-        json $ job
+    -- Views
+    get "/status/view/:name" $ do
+        view <- param "name"
+        jobs <- liftIO . getJenkins $ getViewJobs view
+        json jobs   
+
+    -- Job level -- LOL
+    get "/status/job/:job/:call" $ do 
+        (_:(_,a):_) <- params
+        dat <- liftIO . getJenkins $ getJob (toStrict a)
+        json $ dat
 
     -- Build level
-    get "/status/:job/:number/:call" $ do
+    get "/status/job/:job/:number/:call" $ do
         job <- params
         json $ job
 
