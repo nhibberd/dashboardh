@@ -25,6 +25,9 @@ library
                   , http-conduit                    >= 1.9        && < 2
                   , bytestring
                   , libjenkins
+                  , lens
+                  , lens-aeson
+                  , optparse-applicative
   ghc-options:
                     -Wall -fno-warn-orphans
   hs-source-dirs:
