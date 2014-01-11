@@ -8,6 +8,7 @@ module Dashboardh.Status(
 
 import Dashboardh.Prelude
 import Dashboardh.Job
+import Dashboardh.BuildTime
 import Dashboardh.Core
 import Data.Text                (Text)
 import Options.Applicative
@@ -44,6 +45,13 @@ getJob j = do
     res <- get (job j `as` json -?- "tree" -=- "builds[duration,number,result,builtOn]")
     let jobs = res ^.. key "jobs"._Array.each.key "name"._String
     concurrentlys (map (\n -> do return $ Job n 0 "" "") jobs)
+
+
+getAvgBuildTime :: Text -> Jenkins [BuildTime]
+getAvgBuildTime j = do
+    res <- get (job j `as` json -?- "tree" -=- "builds[duration]")
+    let jobs = res ^.. key "jobs"._Array.each.key "name"._String
+    concurrentlys (map (\n -> do return $ BuildTime j 0 0) jobs)
 
 
 getSimpleJob :: Text -> Text

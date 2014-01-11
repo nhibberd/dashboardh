@@ -36,6 +36,7 @@ library
                     Dashboardh
                     Dashboardh.Core
                     Dashboardh.Job
+                    Dashboardh.BuildTime
                     Dashboardh.Prelude
                     Dashboardh.Status
 
