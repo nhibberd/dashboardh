@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Core where
+module Dashboardh.Core(Hole(..)) where
 
 import Dashboardh.Prelude
 import Dashboardh.Job
@@ -11,6 +11,8 @@ import qualified Data.Text.IO as T
 import           Jenkins.REST hiding (render)
 import           System.Exit (exitFailure)
 import Options.Applicative
+
+data Hole = Hole
 
 foo :: Int -> Int
 foo a = a

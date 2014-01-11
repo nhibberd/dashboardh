@@ -17,9 +17,6 @@ import Control.Lens.Aeson
 import Jenkins.REST
 import Debug.Trace
 
-
-data Hole = Hole
-
 getJenkins :: Jenkins [a] -> IO [a]
 getJenkins f = do  
   let opts = Settings "http://10.128.131.84" 8090 "" ""

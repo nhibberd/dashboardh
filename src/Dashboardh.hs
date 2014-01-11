@@ -8,8 +8,6 @@ import Debug.Trace
 import Data.Text.Lazy
 import Data.Aeson           (ToJSON)
 
-data Hole = Hole
-
 dash :: ScottyM ()
 dash = do
     get "/" $ do 
