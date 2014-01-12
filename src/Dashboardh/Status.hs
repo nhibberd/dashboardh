@@ -4,6 +4,7 @@ module Dashboardh.Status(
  , getJobs
  , getViewJobs
  , getJob
+ , getAvgBuildTime
  ) where
 
 import Dashboardh.Prelude
@@ -11,6 +12,7 @@ import Dashboardh.Job
 import Dashboardh.BuildTime
 import Dashboardh.Core
 import Data.Text                (Text)
+import Data.List                
 import Options.Applicative
 import Control.Lens             hiding (view)
 import Control.Lens.Aeson
@@ -18,8 +20,8 @@ import Jenkins.REST
 import Debug.Trace
 
 getJenkins :: Jenkins [a] -> IO [a]
-getJenkins f = do  
-  let opts = Settings "http://10.128.131.84" 8090 "" ""
+getJenkins f = do
+  let opts = Settings "http://localhost" 8090 "" ""
   jobs <- runJenkins opts f
   case jobs of
       Right l -> return l
@@ -28,7 +30,7 @@ getJenkins f = do
 getJobs :: Jenkins [Text]
 getJobs = do
   res <- get (json -?- "tree" -=- "jobs[name]")
-  let jobs = res ^.. key "jobs"._Array.each.key "name"._String
+  let jobs = (trace (show res) res)  ^.. key "jobs"._Array.each.key "name"._String
   concurrentlys (map (\n -> do return $ n) jobs)
 
 getViewJobs :: Text -> Jenkins [Text]
@@ -39,16 +41,17 @@ getViewJobs v = do
 
 getJob :: Text -> Jenkins [Job]
 getJob j = do 
-    res <- get (job j `as` json -?- "tree" -=- "builds[duration,number,result,builtOn]")
-    let jobs = res ^.. key "jobs"._Array.each.key "name"._String
-    concurrentlys (map (\n -> do return $ Job n 0 "" "") jobs)
-
+    res <- get (job j `as` json -?- "tree" -=- "builds[duration,result,builtOn]")
+    let dur = res ^.. key "builds"._Array.each.key "duration"._Integer
+    let bOn = res ^.. key "builds"._Array.each.key "builtOn"._String
+    let rlt = res ^.. key "builds"._Array.each.key "result"._String
+    concurrentlys (zipWith3 (\a -> \b -> \c -> do return $ Job j (fromInteger a) b c) dur rlt bOn )
 
 getAvgBuildTime :: Text -> Jenkins [BuildTime]
 getAvgBuildTime j = do
     res <- get (job j `as` json -?- "tree" -=- "builds[duration]")
-    let jobs = res ^.. key "jobs"._Array.each.key "name"._String
-    concurrentlys (map (\n -> do return $ BuildTime j 0 0) jobs)
+    let dur = res ^.. key "builds"._Array.each.key "duration"._Integer
+    concurrentlys (return . return $ BuildTime j (length dur) . avg $ map fromInteger dur)
 
 
 getSimpleJob :: Text -> Text

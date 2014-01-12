@@ -1,18 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Dashboardh.Core(Hole(..)) where
+module Dashboardh.Core(
+    Hole(..)
+  , avg
+  ) where
 
 import Dashboardh.Prelude
 import Dashboardh.Job
 import Data.Text                (Text)
-import           Control.Lens                      -- lens
-import           Control.Lens.Aeson                -- lens-aeson
-import qualified Data.ByteString.Char8 as B
-import qualified Data.Text.IO as T
-import           Jenkins.REST hiding (render)
-import           System.Exit (exitFailure)
-import Options.Applicative
+import Data.List                (genericLength)
 
 data Hole = Hole
+
+
+avg :: [Int] -> Int
+avg a =
+  div (sum a) (genericLength a)
 
 foo :: Int -> Int
 foo a = a

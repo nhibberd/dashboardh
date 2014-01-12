@@ -31,6 +31,12 @@ dash = do
         returnResult dat
 
     -- Job level
+    get "/status/job/:job/avgBuildTime" $ do 
+        a <- param "job"
+        dat <- liftIO . getJenkins $ getAvgBuildTime (toStrict a)
+        returnResult dat
+
+    -- Job level
     get "/status/job/:job/:call" $ do 
         (_:(_,a):_) <- params
         dat <- liftIO . getJenkins $ getJob (toStrict a)

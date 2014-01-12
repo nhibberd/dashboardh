@@ -24,6 +24,13 @@ import Prelude as X (
     , foldr
     , fst
     , snd
+    , zipWith
+    , zipWith3
+    , fromInteger
+    , length
+    , sum
+    , realToFrac
+    , div
     )
 import Control.Applicative as X ((<$>), (<*>), (*>), (<*), pure)
 import Control.Monad.Trans as X (liftIO)
