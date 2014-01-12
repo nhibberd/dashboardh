@@ -53,6 +53,6 @@ dash = do
 
 returnResult :: ToJSON a => [a] -> ActionM ()
 returnResult [] = 
-    text "Jenkins not available"
+    text "Something went wrong :: Jenkins not available / bad inputs"
 returnResult l =
     json $ l
